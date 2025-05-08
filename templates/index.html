@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Pantry</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <h1>Smart Pantry Dashboard</h1>
+    <form method="GET" action="/" class="search-form">
+        <input type="text" name="q" placeholder="Search by name..." value="{{ search_query }}">
+    
+        <select name="status">
+            <option value="">All</option>
+            <option value="Full" {% if status_filter == 'Full' %}selected{% endif %}>Full</option>
+            <option value="Medium" {% if status_filter == 'Medium' %}selected{% endif %}>Medium</option>
+            <option value="Low" {% if status_filter == 'Low' %}selected{% endif %}>Low</option>
+        </select>
+    
+        <select name="sort">
+            <option value="">Sort By</option>
+            <option value="quantity" {% if sort_by == 'quantity' %}selected{% endif %}>Quantity (High to Low)</option>
+            <option value="expiry" {% if sort_by == 'expiry' %}selected{% endif %}>Expiry Date (Soonest First)</option>
+        </select>
+    
+        <button type="submit">Apply</button>
+    </form>
+    
+
+    <a href="/add" class="add-link">+ Add New Item</a>
+    <a href="/export" class="btn export">⬇ Export CSV</a>
+
+    <div class="grid">
+        {% for item in items %}
+        <div class="card {{ item.status | lower }} {% if item.status == 'Low' %}low-stock{% endif %}">
+            <img src="{{ item.image_url }}" alt="{{ item.item_name }}">
+            <h2>{{ item.item_name }}</h2>
+            <p>Quantity: {{ item.quantity }} kg</p>
+            <p>Status: {{ item.status }}</p>
+            <p class="{% if item.days_left <= 5 %}alert{% endif %}">
+                Expires in: {{ item.days_left }} day{{ 's' if item.days_left != 1 else '' }}
+            </p>
+            
+            <div class="actions">
+                <a href="/edit/{{ item._id }}" class="btn">Edit</a>
+                <a href="/delete/{{ item._id }}" class="btn delete">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

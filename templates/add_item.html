@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Item</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <h1>Add New Pantry Item</h1>
+
+    <form action="/add" method="POST" class="add-form">
+        <label for="item_name">Item Name:</label>
+        <input type="text" name="item_name" required>
+
+        <label for="quantity">Quantity (kg):</label>
+        <input type="number" name="quantity" step="0.1" required>
+
+        <label for="expiry_date">Expiry Date:</label>
+        <input type="date" name="expiry_date" required>
+
+        <label for="image_url">Image URL (e.g. /static/images/rice.jpg):</label>
+        <input type="text" name="image_url" required>
+
+        <button type="submit">Add Item</button>
+    </form>
+
+    <br>
+    <a href="/">← Back to Dashboard</a>
+</body>
+</html>
